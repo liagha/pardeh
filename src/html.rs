@@ -36,7 +36,7 @@ tags! {
     body => "body", button => "button", code => "code", dd => "dd",
     div => "div", em => "em", footer => "footer", form => "form",
     h1 => "h1", h2 => "h2", h3 => "h3", h4 => "h4", head => "head",
-    header => "header", html_tag => "html", i => "i", label => "label",
+    header => "header", html_tag => "html", i => "i", input => "input", label => "label",
     li => "li", main => "main", nav => "nav", ol => "ol",
     option => "option", p => "p", pre => "pre", s => "s",
     script => "script", section => "section", select => "select",
