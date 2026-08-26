@@ -5,4 +5,4 @@ pub mod web;
 pub use html::*;
 
 pub use signal::{Patch, Signals};
-pub use web::App;
+pub use web::{App, SCRIPT, SCRIPT_PATH};

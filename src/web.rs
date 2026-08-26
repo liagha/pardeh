@@ -10,7 +10,7 @@ use tokio_stream::StreamExt;
 use crate::html::{Node, html_tag as html, script};
 use crate::signal::{Patch, Signals};
 
-const SCRIPT_PATH: &str = "/__pardeh/pardeh.js";
+pub const SCRIPT_PATH: &str = "/__pardeh/pardeh.js";
 pub const SCRIPT: &str = include_str!("../assets/pardeh.js");
 
 #[derive(Clone)]
@@ -38,6 +38,23 @@ impl App {
     }
 
     #[must_use]
+    pub fn script_response(&self) -> Response {
+        (
+            [
+                (header::CONTENT_TYPE, kind()),
+                (header::CACHE_CONTROL, HeaderValue::from_static("no-cache")),
+            ],
+            SCRIPT,
+        )
+            .into_response()
+    }
+
+    #[must_use]
+    pub fn events(&self) -> Response {
+        stream(self.signals.clone()).into_response()
+    }
+
+    #[must_use]
     pub fn page(&self, title: &str, body: Node) -> Response {
         let shell = html()
             .kid(
@@ -50,19 +67,10 @@ impl App {
     }
 
     pub fn router(&self) -> Router {
-        let kind = HeaderValue::from_static("text/javascript; charset=utf-8");
         Router::new()
             .route(
                 SCRIPT_PATH,
-                get(|| async {
-                    (
-                        [
-                            (header::CONTENT_TYPE, kind),
-                            (header::CACHE_CONTROL, HeaderValue::from_static("no-cache")),
-                        ],
-                        SCRIPT,
-                    )
-                }),
+                get(|| async { Self::default().script_response() }),
             )
             .route(
                 "/__pardeh/events",
@@ -75,6 +83,10 @@ impl App {
                 }),
             )
     }
+}
+
+fn kind() -> HeaderValue {
+    HeaderValue::from_static("text/javascript; charset=utf-8")
 }
 
 fn stream(signals: Signals) -> Sse<impl Stream<Item = Result<Event, std::convert::Infallible>>> {
