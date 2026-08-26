@@ -54,7 +54,15 @@ impl App {
         Router::new()
             .route(
                 SCRIPT_PATH,
-                get(|| async { ([(header::CONTENT_TYPE, kind)], SCRIPT) }),
+                get(|| async {
+                    (
+                        [
+                            (header::CONTENT_TYPE, kind),
+                            (header::CACHE_CONTROL, HeaderValue::from_static("no-cache")),
+                        ],
+                        SCRIPT,
+                    )
+                }),
             )
             .route(
                 "/__pardeh/events",

@@ -31,7 +31,7 @@ async fn main() {
             post(move || async move {
                 let next = bump_app.signals().get::<i64>("count") + 1;
                 bump_app.signals().set("count", next);
-                "ok"
+                axum::response::Redirect::to("/")
             }),
         )
         .merge(app.router());
