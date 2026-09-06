@@ -113,6 +113,9 @@ async fn browser_loop_end_to_end() {
     assert!(home.contains("data-pardeh=\"count\""));
     assert!(home.contains("__pardeh/pardeh.js"));
     assert!(home.contains("count: 0"));
+    assert!(home.contains("<meta charset=\"utf-8\""));
+    assert!(home.contains("name=\"viewport\""));
+    assert!(home.contains("<style>"));
 
     use tokio::io::AsyncWriteExt;
     let mut stream = tokio::net::TcpStream::connect(addr).await.unwrap();

@@ -8,6 +8,10 @@
         document.addEventListener("submit", (event) => {
             const form = event.target;
             if (!form.closest("[data-pardeh]")) return;
+            if (form.dataset.ask && !confirm(form.dataset.ask)) {
+                event.preventDefault();
+                return;
+            }
             event.preventDefault();
             fetch(form.action, {
                 method: (form.method || "post").toUpperCase(),

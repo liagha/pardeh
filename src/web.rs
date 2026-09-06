@@ -7,7 +7,7 @@ use futures_util::stream::Stream;
 use serde_json::to_string;
 use tokio_stream::StreamExt;
 
-use crate::html::{Node, html_tag as html, script};
+use crate::html::{Node, el, html_tag as html, script};
 use crate::signal::{Patch, Signals};
 
 pub const SCRIPT_PATH: &str = "/__pardeh/pardeh.js";
@@ -57,9 +57,18 @@ impl App {
     #[must_use]
     pub fn page(&self, title: &str, body: Node) -> Response {
         let shell = html()
+            .attr("lang", "en")
             .kid(
                 crate::html::head()
                     .kid(crate::html::title().text(title))
+                    .kid(el("meta").attr("charset", "utf-8"))
+                    .kid(
+                        el("meta")
+                            .attr("name", "viewport")
+                            .attr("content", "width=device-width, initial-scale=1"),
+                    )
+                    .kid(el("link").attr("rel", "icon").attr("href", crate::theme::FAVICON))
+                    .kid(crate::theme::theme())
                     .kid(script().attr("src", SCRIPT_PATH).attr("defer", "defer")),
             )
             .kid(body);

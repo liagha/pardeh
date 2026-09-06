@@ -32,19 +32,18 @@ macro_rules! tags {
 }
 
 tags! {
-    a => "a", article => "article", aside => "aside", b => "b",
+    a => "a", article => "article", aside => "aside", b => "b", br => "br",
     body => "body", button => "button", code => "code", dd => "dd",
-    div => "div", em => "em", footer => "footer", form => "form",
-    h1 => "h1", h2 => "h2", h3 => "h3", h4 => "h4", head => "head",
-    header => "header", html_tag => "html", i => "i", input => "input", label => "label",
-    li => "li", main => "main", nav => "nav", ol => "ol",
-    option => "option", p => "p", pre => "pre", s => "s",
-    script => "script", section => "section", select => "select",
-    small => "small", span => "span", strong => "strong",
-    style => "style", sub => "sub", summary => "summary",
-    sup => "sup", table => "table", tbody => "tbody", td => "td",
-    textarea => "textarea", th => "th", thead => "thead",
-    title => "title", tr => "tr", ul => "ul",
+    dialog => "dialog", div => "div", em => "em", footer => "footer", form => "form",
+    h1 => "h1", h2 => "h2", h3 => "h3", h4 => "h4", head => "head", hr => "hr",
+    header => "header", html_tag => "html", i => "i", img => "img", input => "input",
+    label => "label", li => "li", link => "link", main => "main", meta => "meta",
+    nav => "nav", ol => "ol", option => "option", p => "p", pre => "pre",
+    s => "s", script => "script", section => "section", select => "select",
+    small => "small", span => "span", strong => "strong", style => "style",
+    sub => "sub", summary => "summary", sup => "sup", table => "table",
+    tbody => "tbody", td => "td", textarea => "textarea", th => "th",
+    thead => "thead", title => "title", tr => "tr", ul => "ul",
 }
 
 impl Node {
