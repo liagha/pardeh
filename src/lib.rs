@@ -5,6 +5,7 @@ pub mod ui;
 pub mod web;
 
 pub use html::*;
+pub use signal::Signals;
 pub use theme::theme;
 pub use ui::*;
 pub use web::{App, SCRIPT, SCRIPT_PATH};
