@@ -107,11 +107,11 @@ impl Field {
 }
 
 pub struct Slice {
-    drop: Option<Drop>,
+    delete: Option<Delete>,
     href: Option<Href>,
 }
 
-pub struct Drop {
+pub struct Delete {
     route: &'static str,
     label: &'static str,
     ask: bool,
@@ -124,13 +124,13 @@ pub struct Href {
 
 pub fn slice() -> Slice {
     Slice {
-        drop: None,
+        delete: None,
         href: None,
     }
 }
 
-pub fn drop(route: &'static str, label: &'static str, ask: bool) -> Drop {
-    Drop { route, label, ask }
+pub fn delete(route: &'static str, label: &'static str, ask: bool) -> Delete {
+    Delete { route, label, ask }
 }
 
 pub fn href(template: &'static str, label: &'static str) -> Href {
@@ -139,8 +139,8 @@ pub fn href(template: &'static str, label: &'static str) -> Href {
 
 impl Slice {
     #[must_use]
-    pub fn drop(mut self, drop: Drop) -> Self {
-        self.drop = Some(drop);
+    pub fn remove(mut self, delete: Delete) -> Self {
+        self.delete = Some(delete);
         self
     }
 
@@ -173,9 +173,9 @@ pub fn list(key: &'static str, empty: &'static str, slice: Slice) -> impl Fn(&Si
 fn cells(slice: &Slice, item: &Item) -> Node {
     div().class("acts").kids(
         [slice
-            .drop
+            .delete
             .as_ref()
-            .map(|drop| post(drop, item)),
+            .map(|delete| post(delete, item)),
         slice
             .href
             .as_ref()
@@ -186,14 +186,14 @@ fn cells(slice: &Slice, item: &Item) -> Node {
     )
 }
 
-fn post(drop: &Drop, item: &Item) -> Node {
+fn post(delete: &Delete, item: &Item) -> Node {
     let mut form = form()
         .class("inline")
         .attr("method", "post")
-        .attr("action", format!("{}/{}", drop.route, item.key))
-        .kid(button().attr("type", "submit").text(drop.label));
-    if drop.ask {
-        form = form.attr("data-ask", format!("{} {}?", drop.label, item.label));
+        .attr("action", format!("{}/{}", delete.route, item.key))
+        .kid(button().attr("type", "submit").text(delete.label));
+    if delete.ask {
+        form = form.attr("data-ask", format!("{} {}?", delete.label, item.label));
     }
     form
 }

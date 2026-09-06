@@ -1,4 +1,4 @@
-use pardeh::{App, Item, drop, field, href, list, slice};
+use pardeh::{App, Item, delete, field, href, list, slice};
 
 #[test]
 fn field_renders_label_input_and_validation() {
@@ -21,7 +21,7 @@ fn field_renders_label_input_and_validation() {
 }
 
 #[test]
-fn list_renders_rows_with_post_and_download() {
+fn list_renders_rows_with_delete_and_download() {
     let app = App::new();
     app.signals()
         .define("files", vec![Item { key: "a1".into(), label: "note.txt".into(), meta: "now".into() }]);
@@ -31,7 +31,7 @@ fn list_renders_rows_with_post_and_download() {
             "files",
             "no files yet",
             slice()
-                .drop(drop("/web/file", "delete", true))
+                .remove(delete("/web/file", "delete", true))
                 .link(href("/api/v1/files/{}/content", "download")),
         ),
     );
@@ -49,7 +49,7 @@ fn list_shows_empty_state_when_no_rows() {
     app.signals().define("devices", Vec::<Item>::new());
     let region = app.signals().region(
         "devices",
-        list("devices", "no devices yet", slice().drop(drop("/web/device", "revoke", true))),
+        list("devices", "no devices yet", slice().remove(delete("/web/device", "revoke", true))),
     );
     let html = region.render();
     assert!(html.contains("no devices yet"));
